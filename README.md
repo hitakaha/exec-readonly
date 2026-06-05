@@ -11,7 +11,6 @@ The following operating systems are currently supported:
 *   IOS-XE
 *   Nexus
 *   ASA
-*   Huawei
 
 ## CLI Usage
 To execute a command via the CLI, use the following syntax:
@@ -28,7 +27,7 @@ Sending 1, 100-byte ICMP Echos to 192.168.0.1 timeout is 2 seconds:
 Success rate is 100 percent (1/1)
 ```
 
-Commands that do not start with `ping`, `show`, or `display` will be rejected:
+Commands that do not start with `ping` or `show` will be rejected:
 
 ```
 devices device c8201 exec-readonly command "copy run start"
