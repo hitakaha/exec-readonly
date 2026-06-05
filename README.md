@@ -1,38 +1,46 @@
-# Exec-readonly package
-This is an NSO package which allows only read-only commands which is useful when a user allow certain commands via NSO MCP.
+# Exec-readonly NSO Package
 
-# How to use
-Clone the package, make and load the pacakge.
+This NSO package restricts command execution to read-only operations. It is particularly useful when granting users limited access to specific commands via NSO MCP.
 
-# Supported platforms
-Currently, following OS are supported:
-- IOS-XR
-- IOS-XE
-- Nexus
-- ASA
-- Huawei
+## How to Use
+Clone, build, and load the package into your NSO environment.
 
-# Execute via CLI
-Following to how to execute in CLI.
+## Supported Platforms
+The following operating systems are currently supported:
+*   IOS-XR
+*   IOS-XE
+*   Nexus
+*   ASA
+*   Huawei
+
+## CLI Usage
+To execute a command via the CLI, use the following syntax:
 
 ```
-# devices device c8201 exec-readonly command "ping 192.168.0.1 repeat 1"                           
-result 
+devices device c8201 exec-readonly command "ping 192.168.0.1 repeat 1"
+```
+
+**Result:**
+```
 Type escape sequence to abort.
 Sending 1, 100-byte ICMP Echos to 192.168.0.1 timeout is 2 seconds:
 !
 Success rate is 100 percent (1/1)
 ```
 
-If you type a command which does NOT start with "ping", "show" or "display", they are rejected as following.
+Commands that do not start with `ping`, `show`, or `display` will be rejected:
 
 ```
-# devices device c8201 exec-readonly command "copy run start"          
-result ERROR: Allowed commands: ping, show
+devices device c8201 exec-readonly command "copy run start"
 ```
 
-# MCP configuration
-To expose this package via NSO MCP function, configure MCP policy as follows.
+**Result:**
+```
+ERROR: Allowed commands: ping, show, display
+```
+
+## MCP Configuration
+To expose this package via the NSO MCP function, configure the MCP policy as follows:
 
 ```
 mcp-server policies rule 1
@@ -40,13 +48,10 @@ mcp-server policies rule 1
  match path /ncs:devices/device/exec-readonly
 ```
 
+The following tool will be exposed:
+`NSO.ncs_devices_device_exec_readonly`
 
-Following new Tool is exposed.
-
-```
-NSO.ncs_devices_device_exec_readonly   
-```
-
-# How to customize
-Check the python code and add any more comomands or OS.
+## How to Customize
+To extend the functionality, modify the Python source code to include additional commands or support for other operating systems.  
+ 
 
