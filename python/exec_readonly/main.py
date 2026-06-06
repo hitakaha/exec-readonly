@@ -26,27 +26,28 @@ class ExecReadonlyAction(Action):
         try:
             # check if input command is allowd
             if not str(input.command).startswith("ping") and \
-               not str(input.command).startswith("show"):
+               not str(input.command).startswith("show") and \
+               not str(input.command).startswith("display"):
                 raise ValueError("Allowed commands: ping, show")
 
-        
+
             if ('tailf-ned-cisco-ios-xr-stats', '') in device.live_status.yanglib__modules_state.module:
                 self.log.info(dev_name, ' is a cisco-iosxr device')
-                command = input.command 
+                command = input.command
                 live_input = device.live_status.cisco_ios_xr_stats__exec.any.get_input()
                 live_input.args = [command]
                 live_output = device.live_status.cisco_ios_xr_stats__exec.any(live_input)
                 self.log.info("live_output: ", live_output.result)
             elif ('tailf-ned-cisco-ios-stats', '') in device.live_status.yanglib__modules_state.module:
                 self.log.info(dev_name, ' is a cisco-ios device')
-                command = input.command 
+                command = input.command
                 live_input = device.live_status.ios_stats__exec.any.get_input()
                 live_input.args = [command]
                 live_output = device.live_status.ios_stats__exec.any(live_input)
                 self.log.info("live_output: ", live_output.result)
             elif ('tailf-ned-cisco-asa-stats', '') in device.live_status.yanglib__modules_state.module:
                 self.log.info(dev_name, ' is a cisco-asa device')
-                command = input.command 
+                command = input.command
                 live_input = device.live_status.asa_stats__exec.any.get_input()
                 live_input.args = [command]
                 live_output = device.live_status.asa_stats__exec.any(live_input)
@@ -58,8 +59,23 @@ class ExecReadonlyAction(Action):
                 live_input.args = [command]
                 live_output = device.live_status.nx_stats__exec.any(live_input)
                 self.log.info("live_output: ", live_output.result)
+            elif ('tailf-ned-huawei-vrp-stats', '') in device.live_status.yanglib__modules_state.module:
+                self.log.info(dev_name, ' is a Huawei device')
+                command = input.command
+                live_input = device.live_status.vrp_stats__exec.any.get_input()
+                live_input.args = [command]
+                live_output = device.live_status.vrp_stats__exec.any(live_input)
+                self.log.info("live_output: ", live_output.result)
+            elif ('tailf-ned-generic-ctu-stats', '') in device.live_status.yanglib__modules_state.module:
+                self.log.info(dev_name, ' is a Generic device')
+                command = input.command
+                input_obj = device.live_status.generic_ctu_stats__exec.nonconfig_actions.get_input()
+                action_entry = input_obj.action.create("action-payload")
+                action_entry.action_payload = command
+                live_output = device.live_status.generic_ctu_stats__exec.nonconfig_actions(input_obj)
+                self.log.info("live_output: ", live_output.result)
             else:
-                raise ValueError("Unsupported platform! Only Cisco devices (IOS-XE, IOS-XR, Nexus and ASA) are supported.")
+                raise ValueError("Unsupported platform! Only IOS-XE, IOS-XR, Nexus, ASA, Huawei and Generic devices are supported.")
 
                      
         except Exception as e:
