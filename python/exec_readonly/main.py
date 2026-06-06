@@ -28,7 +28,7 @@ class ExecReadonlyAction(Action):
             if not str(input.command).startswith("ping") and \
                not str(input.command).startswith("show") and \
                not str(input.command).startswith("display"):
-                raise ValueError("Allowed commands: ping, show")
+                raise ValueError("Allowed commands: ping, show, display")
 
 
             if ('tailf-ned-cisco-ios-xr-stats', '') in device.live_status.yanglib__modules_state.module:
