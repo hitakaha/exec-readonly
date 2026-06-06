@@ -23,7 +23,7 @@ module exec-readonly {
 
   augment /ncs:devices/ncs:device {
     tailf:action exec-readonly {
-      tailf:info "execute read-only commands. Allowd commands are ping only";
+      tailf:info "execute read-only commands. Allowd commands are ping, show and display";
       tailf:actionpoint exec-readonly-action;
       input {
         leaf command {
